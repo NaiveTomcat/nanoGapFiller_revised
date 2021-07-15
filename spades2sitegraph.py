@@ -4,12 +4,12 @@ from Bio.Seq import Seq
 from fastg_reader import parse_fastg
 
 
-def find_site_locations(seq: Seq, site_seqs: list[Seq]) -> list[int]:
+def find_site_locations(seq: Seq, site_seqs: list[Seq], overlap: int = 127) -> list[int]:
     locations: list[int] = []
     for site_seq in site_seqs:
         local_locations: list[int] = []
-        if seq.find(site_seq) != -1:
-            local_locations.append(seq.find(site_seq))
+        if seq.find(site_seq, start=overlap) != -1:
+            local_locations.append(seq.find(site_seq, start=overlap))
         while seq.find(site_seq, start=local_locations[-1]) != -1:
             local_locations.append(
                 seq.find(site_seq, start=local_locations[-1]))
